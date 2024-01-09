@@ -1,0 +1,73 @@
+/* Styles for the entire container */
+.allocation-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+  }
+  
+  /* Styles for the time cycle list */
+  .time-cycle-list {
+    margin-bottom: 20px;
+  }
+  
+  /* Styles for the allocation table section */
+  .allocation-table {
+    width: 100%;
+    border: 1px solid #ccc;
+    padding: 20px;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+  }
+
+  /* Add spacing between table cells */
+.allocation-table table {
+    border-collapse: separate;
+    border-spacing: 10px; /* Adjust the spacing as needed */
+  }
+  
+  /* Optional: Apply specific styles to table cells */
+  .allocation-table td {
+    padding: 8px;
+    text-align: center;
+    /* Additional styles for table cells */
+  }
+  
+  /* Styles for the add/delete buttons */
+  .allocation-buttons {
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-around;
+  }
+  
+  /* Styles for the off days section */
+  .off-days-section {
+    margin-top: 20px;
+  }
+  
+  /* Styles for the button and modal to add off days */
+  .add-off-day-section {
+    margin-top: 10px;
+  }
+  
+  .timecycle-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+  }
+  
+  .timecycle-table td {
+    border: 1px solid #ccc;
+    padding: 8px;
+    text-align: left;
+  }
+  
+  .timecycle-table strong {
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  .timecycle-table button {
+    margin-top: 5px;
+  }
+  

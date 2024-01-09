@@ -1,0 +1,69 @@
+.permissions-container {
+    display: flex;
+    justify-content: space-between;
+    /* Add other styling as needed */
+  }
+  
+  
+
+  .user-role-permissions {
+    margin-top: 20px;
+  }
+  
+  .role-table,
+  .permission-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+  }
+  
+  .role-table th,
+  .role-table td,
+  .permission-table th,
+  .permission-table td {
+    padding: 8px;
+    border: 1px solid #ccc;
+    text-align: left;
+  }
+  
+  .role-table th,
+  .permission-table th {
+    background-color: #f2f2f2;
+  }
+  
+  .role-table tbody tr:nth-child(even),
+  .permission-table tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+  
+  .role-table tbody tr:hover,
+  .permission-table tbody tr:hover {
+    background-color: #e3e3e3;
+  }
+
+
+
+  .permissions-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+  }
+  
+  .permissions-table th,
+  .permissions-table td {
+    border: 1px solid #dddddd;
+    padding: 8px;
+    text-align: left;
+  }
+  
+  .permissions-table th {
+    background-color: #f2f2f2;
+  }
+  
+  .permission-item:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+  
+  .permission-item:hover {
+    background-color: #e0e0e0;
+  }
