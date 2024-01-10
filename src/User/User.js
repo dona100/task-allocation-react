@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-
+import { Button, Modal, Form } from 'react-bootstrap';
 import './User.css'; 
 
 const User = () => {
@@ -13,6 +13,7 @@ const User = () => {
   });
   const [showUpdateModal, setShowUpdateModal] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
+  const [showAddModal, setShowAddModal] = useState(false);
 
   useEffect(() => {
     fetchUsers();
@@ -20,7 +21,7 @@ const User = () => {
 
   const fetchUsers = async () => {
     try {
-      
+      // Retrieve the access token from local storage
       const accessToken = localStorage.getItem('accessToken');
 
       if (!accessToken) {
@@ -102,6 +103,29 @@ const User = () => {
     setSelectedUser(null);
     fetchUsers(); // Fetch users after closing modal
   };
+  const handleAddNewAdminUser = () => {
+    setShowAddModal(true); // Show the add admin user modal
+    setFormData({ /* Reset form fields */ });
+    setSelectedUser(null);
+  };
+
+  const handleSubmitAddAdminUser = async (e) => {
+    e.preventDefault();
+    try {
+      await axios.post('http://127.0.0.1:8000/api/admin/', formData, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+        },
+      });
+      setFormData({ /* Reset form fields */ });
+      fetchUsers();
+      setShowAddModal(false); // Close the add admin user modal after submission
+      setSelectedUser(null); // Reset selected user
+    } catch (error) {
+      console.error('Error adding admin user:', error);
+    }
+  };
+
 
   return (
     <div className="user-container">
@@ -135,51 +159,123 @@ const User = () => {
       
 
       
-
       <div className="user-form">
-        {/* Add New User button */}
+        
+          {/* Add New User button */}
         {!showUpdateModal && !selectedUser && (
           <button onClick={handleAddNewUser}>Add New User</button>
         )}
+        <div className="button-space">
+          {/* Add New Admin User button using React Bootstrap */}
+        {!showUpdateModal && !selectedUser && (
+          <Button variant="primary" onClick={handleAddNewAdminUser}>
+            Add New Admin User
+          </Button>
+        )}
+        </div>
+        
+
 
         {/* Update user modal */}
         {showUpdateModal && (
-          <div className="update-modal">
-            <form onSubmit={handleSubmit}>
-              
-              <input
-                type="text"
-                placeholder="UserName"
-                value={formData.username}
-                onChange={(e) => setFormData({ ...formData, username: e.target.value })}
-              />
-              <input
-                type="password"
-                placeholder="Password"
-                value={formData.password}
-                onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-              />
-              <input
-                type="boolean"
-                placeholder="is_active"
-                value={formData.is_active}
-                onChange={(e) => setFormData({ ...formData, is_active: e.target.value })}
-             />
-            
-              {/* Submit button */}
-              <button type="submit">Submit</button>
-            </form>
-            <button onClick={handleCloseModal}>Close</button>
-          </div>
+          <Modal show={showUpdateModal} onHide={handleCloseModal}>
+            <Modal.Header closeButton>
+              <Modal.Title> User Detail</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <Form onSubmit={handleSubmit}>
+                {/* Input fields for updating user details */}
+                {/* Populate form fields with user data */}
+                <Form.Group controlId="formUsername">
+                  <Form.Label>Username</Form.Label>
+                  <Form.Control
+                    type="text"
+                    placeholder="Enter Username"
+                    value={formData.username}
+                    onChange={(e) => setFormData({ ...formData, username: e.target.value })}
+                  />
+                </Form.Group>
+                <Form.Group controlId="formPassword">
+                  <Form.Label>Password</Form.Label>
+                  <Form.Control
+                    type="password"
+                    placeholder="Enter Password"
+                    value={formData.password}
+                    onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                  />
+                </Form.Group>
+                <Form.Group controlId="formIsActive">
+                  <Form.Check
+                    type="checkbox"
+                    label="Active"
+                    checked={formData.is_active} // Set the checked state based on formData.is_active
+                    onChange={(e) => setFormData({ ...formData, is_active: e.target.checked })}
+                  />
+                </Form.Group>
+                <Button variant="primary" type="submit">
+                  Submit
+                </Button>
+              </Form>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="secondary" onClick={handleCloseModal}>
+                Close
+              </Button>
+            </Modal.Footer>
+          </Modal>
         )}
+
+        {/* Add admin user modal using React Bootstrap */}
+        <Modal show={showAddModal} onHide={() => setShowAddModal(false)}>
+          <Modal.Header closeButton>
+            <Modal.Title>Add Admin User</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <Form onSubmit={handleSubmitAddAdminUser}>
+              {/* Input fields for adding admin user details */}
+              <Form.Group controlId="formUsername">
+                <Form.Label>Username</Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="Enter Username"
+                  value={formData.username}
+                  onChange={(e) => setFormData({ ...formData, username: e.target.value })}
+                />
+              </Form.Group>
+              <Form.Group controlId="formPassword">
+                <Form.Label>Password</Form.Label>
+                <Form.Control
+                  type="password"
+                  placeholder="Enter Password"
+                  value={formData.password}
+                  onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                />
+              </Form.Group>
+              <Form.Group controlId="formIsStaff">
+                <Form.Check
+                  type="checkbox"
+                  label="Admin User"
+                  checked={true} // Set is_staff to true for admin user
+                  onChange={(e) => setFormData({ ...formData, is_staff: e.target.checked })}
+                />
+              </Form.Group>
+              <Button variant="primary" type="submit">
+                Add Admin User
+              </Button>
+            </Form>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={() => setShowAddModal(false)}>
+              Close
+            </Button>
+          </Modal.Footer>
+        </Modal>
       </div>
     </div>
   );
 };
 
 export default User;
-
-
 
 
 
