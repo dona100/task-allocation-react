@@ -69,10 +69,22 @@ function AllocationTable() {
       })
         .then((response) => response.json())
         .then((data) => {
-          // Handle successful creation
           console.log('Allocation created:', data);
-          
+          // Fetch updated allocations for the selected time cycle
+          fetch(`http://127.0.0.1:8000/api/allocations/${selectedTimeCycle.id}/`, {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+            },
+          })
+          .then((response) => response.json())
+          .then((data) => setAllocations(data))
+          .catch((error) => console.error('Error fetching allocation data:', error));
         })
+        // .then((data) => {
+        //   // Handle successful creation
+        //   console.log('Allocation created:', data);
+          
+        // })
         .catch((error) => console.error('Error creating allocation:', error));
     }
   };
